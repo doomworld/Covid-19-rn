@@ -3,12 +3,18 @@ import { StyleSheet, Text, View } from 'react-native';
 
 const Buttons = ({ name, number }) => {
 	return (
-		<View styles={style.container}>
-			<View styles={style.circle}>
-				<Text styles={style.textInfo}>i</Text>
+		<View style={styles.container}>
+			<View style={styles.circle}>
+				<Text style={styles.textInfo}>i</Text>
 			</View>
-			<Text styles={style.btnName}>{name}</Text>
-			<Text styles={style.number}>{number}</Text>
+			<View
+				style={{
+					flexDirection: 'row',
+				}}
+			>
+				<Text style={styles.btnName}>{name}</Text>
+				<Text style={styles.number}>{number}</Text>
+			</View>
 		</View>
 	);
 };
@@ -25,7 +31,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 15,
 		flexDirection: 'row',
 		alignItems: 'center',
-		marginTop: 5,
+		marginTop: 8,
 		marginBottom: 5,
 	},
 	circle: {
@@ -41,15 +47,16 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 	},
 	btnName: {
+		flex: 1,
 		fontWeight: 'bold',
 		color: '#ffffff',
 		fontSize: 12,
-		marginLeft: 20,
+		marginLeft: 10,
 	},
 	number: {
 		fontWeight: 'bold',
 		color: 'red',
-		fontSize: 14,
-		marginLeft: 90,
+		fontSize: 12,
+		marginRight: 20,
 	},
 });

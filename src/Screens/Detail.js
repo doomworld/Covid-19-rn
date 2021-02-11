@@ -1,14 +1,42 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import {
+	StyleSheet,
+	Text,
+	View,
+	Image,
+	TouchableOpacity,
+	ScrollView,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Chart from '../Components/Chart';
 
-const Detail = () => {
+// chart data to plot
+const data = {
+	labels: ['Jan', 'Fab', 'Mar', 'Apr', 'May', 'Jun'],
+	datasets: [
+		{
+			data: [
+				Math.random() * 100,
+				Math.random() * 100,
+				Math.random() * 100,
+				Math.random() * 100,
+				Math.random() * 100,
+				Math.random() * 100,
+			],
+		},
+	],
+};
+
+const Detail = ({ navigation }) => {
+	const reloadChart = () => {
+		console.log('refresh');
+	};
+
 	return (
 		<View style={styles.page}>
 			<View style={styles.headContainer}>
 				<View style={styles.humContainer}>
-					<Ionicons name="md-remove" size={26} color="" />
+					<Ionicons name="md-remove" size={26} color="#000" />
 					<Ionicons name="md-remove" size={26} style={styles.hum} />
 				</View>
 				<View style={styles.profileContainer}>
@@ -21,24 +49,31 @@ const Detail = () => {
 			<View style={styles.optionCard}>
 				<View style={styles.optionCol}>
 					<Text style={styles.textLinear}>LINEAR</Text>
-					<Text style={styles.textLinear}>LINEAR</Text>
 				</View>
 				<Text style={styles.textLogrithimic}>LOGARITHIMIC</Text>
 			</View>
 			<View style={styles.locationContainer}>
 				<Text style={styles.textGlobal}>GLOBAL</Text>
 				<Text style={styles.textIndia}>INDIA</Text>
-				<View style={styles.reloadContainer}>
+				<TouchableOpacity style={styles.reloadContainer} onPress={reloadChart}>
 					<Ionicons name="md-refresh" size={24} color="red" />
-				</View>
+				</TouchableOpacity>
 			</View>
-			<Chart />
+			<View style={{ zIndex: 0 }}>
+				<Chart data={data} />
+			</View>
+
 			<View style={styles.bottomCard}>
 				<View style={styles.bottomCol}>
 					<Text style={styles.textSymptoms}>SYMPTOMS</Text>
-					<View style={styles.infoContainer}>
+					<TouchableOpacity
+						style={styles.infoContainer}
+						onPress={() => {
+							navigation.navigate('Home');
+						}}
+					>
 						<Text style={{ color: '#fff' }}>i</Text>
-					</View>
+					</TouchableOpacity>
 				</View>
 				<View style={styles.button}>
 					<Text style={styles.btnText}>See More Graphs</Text>
@@ -93,7 +128,7 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 	},
 	textLogrithimic: {
-		color: 'b8b8aa',
+		color: '#b8b8aa',
 		fontWeight: 'bold',
 		fontSize: 12,
 		marginLeft: 15,
@@ -132,6 +167,7 @@ const styles = StyleSheet.create({
 		marginTop: 20,
 		borderTopLeftRadius: 30,
 		borderTopRightRadius: 30,
+		zIndex: 99,
 	},
 	bottomCol: {
 		flexDirection: 'row',

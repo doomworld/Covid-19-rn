@@ -21,7 +21,7 @@ const Cards = ({ bg, icon, title, number, onPress }) => {
 					<MaterialCommunityIcons
 						name="dots-vertical"
 						size={30}
-						color="#b8b8aa"
+						color={bg === 'red' ? '#b8b8aa' : 'red'}
 						style={{ marginLeft: 50 }}
 					/>
 				</TouchableOpacity>
@@ -53,13 +53,13 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 	},
 	title: {
-		marginTop: 90,
+		marginTop: 70,
 		color: '#b8b8aa',
-		fontSize: 12,
+		fontSize: 9,
 		fontWeight: 'bold',
 	},
 	number: {
 		fontWeight: 'bold',
-		fontSize: 22,
+		fontSize: 15,
 	},
 });

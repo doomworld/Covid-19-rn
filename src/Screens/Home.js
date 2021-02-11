@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
 	StyleSheet,
 	Text,
@@ -6,12 +6,12 @@ import {
 	Image,
 	Button,
 	ImageBackground,
+	TouchableOpacity,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import Buttons from '../Components/Buttons';
 import Cards from '../Components/Cards';
-import Chart from '../Components/Chart';
 import Deck from '../Components/Deck';
 
 const DATA = [
@@ -21,6 +21,13 @@ const DATA = [
 ];
 
 const Home = ({ navigation }) => {
+	const ref = useRef(null);
+
+	// calling ref inside reloadCards to call child ref function
+	const reloadCards = () => {
+		ref.current.reloadDeck();
+	};
+
 	const renderNoMoreCards = () => {
 		return (
 			<View title="All Done!" style={styles.noMoreCards}>
@@ -86,47 +93,53 @@ const Home = ({ navigation }) => {
 				<View style={styles.colContainer}>
 					<Text style={styles.textGlobal}>GLOBAL</Text>
 					<Text style={styles.textIndia}>INDIA</Text>
-					<View style={styles.reloadContainer}>
+					<TouchableOpacity
+						style={styles.reloadContainer}
+						onPress={reloadCards}
+					>
 						<Ionicons name="md-refresh" size={24} color="red" />
-					</View>
+					</TouchableOpacity>
 				</View>
 			</ImageBackground>
 			<Deck
+				ref={ref} //passing ref
 				data={DATA}
 				renderCard={renderCard}
 				renderNoMoreCards={renderNoMoreCards}
 			/>
-			<ScrollView
-				style={{ marginTop: 170 }}
-				horizontal
-				showsHorizontalScrollIndicator={false}
-			>
-				<Cards
-					icon="md-pulse"
-					title="TOTAL CASES"
-					bg="red"
-					number="113 329"
-					onPress={() => navigation.navigate('Details')}
-				/>
-				<Cards
-					icon="ios-git-network"
-					title="RECOVERED"
-					bg="#FFFFFF"
-					number="442 329"
-					onPress={() => navigation.navigate('Details')}
-				/>
-				<Cards
-					icon="ios-heart-dislike"
-					title="DEATH CASES"
-					bg="#FFFFFF"
-					number="113 329"
-					onPress={() => navigation.navigate('Details')}
-				/>
+			<ScrollView showsVerticalScrollIndicator={false}>
+				<ScrollView
+					style={{ marginTop: 170 }}
+					horizontal
+					showsHorizontalScrollIndicator={false}
+				>
+					<Cards
+						icon="md-pulse"
+						title="TOTAL CASES"
+						bg="red"
+						number="113 329"
+						onPress={() => navigation.navigate('Detail')}
+					/>
+					<Cards
+						icon="ios-git-network"
+						title="RECOVERED"
+						bg="#FFFFFF"
+						number="442 329"
+						onPress={() => navigation.navigate('Detail')}
+					/>
+					<Cards
+						icon="ios-heart-dislike"
+						title="DEATH CASES"
+						bg="#FFFFFF"
+						number="113 329"
+						onPress={() => navigation.navigate('Detail')}
+					/>
+				</ScrollView>
+				<View style={{ marginTop: 34, marginBottom: 20 }}>
+					<Buttons name="ASYMPTOMATIC" number="1 778" />
+					<Buttons name="SYMPTOMATIC" number="1 578" />
+				</View>
 			</ScrollView>
-			<View style={{ marginBottom: 34 }}>
-				<Buttons name="ASYMPTOMATIC" number="1 778" />
-				<Buttons name="SYMPTOMATIC" number="1 578" />
-			</View>
 		</View>
 	);
 };
@@ -136,7 +149,7 @@ export default Home;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#1c2732',
+		backgroundColor: '#040406', //'#1c2732',
 	},
 	cardContainer: {
 		height: 150,
@@ -157,37 +170,37 @@ const styles = StyleSheet.create({
 	title: {
 		color: '#6a706e',
 		width: 100,
-		fontSize: 14,
+		fontSize: 10,
 		fontWeight: 'bold',
 	},
 	number: {
 		color: '#ffffff',
 		width: 100,
-		fontSize: 15,
+		fontSize: 13,
 		fontWeight: 'bold',
-		marginTop: -8,
+		marginTop: -10,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
 	textCovid: {
 		transform: [{ rotate: '-90deg' }],
 		color: '#3a4b4f',
-		fontSize: 13,
+		fontSize: 12,
 		width: 90,
 		marginLeft: -35,
 		fontWeight: 'bold',
 		marginTop: 18,
 	},
 	noMoreCards: {
-		// alignItems: 'center',
 		position: 'absolute',
-		marginHorizontal: 25,
+		marginHorizontal: 30,
 		width: 300,
 		height: 150,
 		backgroundColor: '#2b3240',
 		borderColor: '#6a706e',
 		borderWidth: 1,
 		borderRadius: 50,
+		zIndex: 2,
 	},
 	noCard: {
 		marginTop: 20,
@@ -231,6 +244,7 @@ const styles = StyleSheet.create({
 		marginTop: 40,
 		marginBottom: 5,
 		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	textGlobal: {
 		fontWeight: 'bold',
@@ -252,5 +266,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		marginLeft: 50,
+		marginBottom: 3,
 	},
 });

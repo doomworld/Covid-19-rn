@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {
+	useState,
+	useEffect,
+	useRef,
+	forwardRef,
+	useImperativeHandle,
+} from 'react';
 import {
 	StyleSheet,
 	UIManager,
@@ -13,9 +19,24 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
 const SWIPE_OUT_DURATION = 250;
 
-const Deck = (props) => {
+const Deck = forwardRef((props, ref) => {
 	// states
 	const [index, setIndex] = useState(0);
+
+	// function to update index state to pass parent
+	const reloadDeck = () => {
+		setIndex(0);
+	};
+
+	/** function which passes to parent using ref variable
+	 * using useImperativeHandle which takes ref and callback to
+	 * pass to parent
+	 */
+	useImperativeHandle(ref, () => {
+		return {
+			reloadDeck,
+		};
+	});
 
 	// state assignments
 	const position = useRef(new Animated.ValueXY()).current;
@@ -135,7 +156,7 @@ const Deck = (props) => {
 	};
 
 	return <View>{renderCards()}</View>;
-};
+});
 
 // defual props for deck functional component
 Deck.defaultProps = {

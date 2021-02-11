@@ -1,47 +1,24 @@
 import React from 'react';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 
-const labels = [
-	'Jan',
-	'Fab',
-	'Mar',
-	'Apr',
-	'May',
-	'Jun',
-	'Jul',
-	'Aug',
-	'Sep',
-	'Oct',
-];
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
-const datasets = [
-	{
-		data: [
-			Math.random() * 100,
-			Math.random() * 100,
-			Math.random() * 100,
-			Math.random() * 100,
-			Math.random() * 100,
-		],
-	},
-];
-
-const Chart = () => {
+const Chart = ({ data }) => {
+	// console.log(`width => ${width} \n height => ${height}`);
 	return (
 		<View
 			style={{
 				marginHorizontal: 20,
-				marginTop: 40,
+				marginTop: 20,
 			}}
 		>
 			<LineChart
-				data={{
-					labels,
-					datasets,
-				}}
-				width={Dimensions.get('window').width}
-				hwight={320}
+				data={data}
+				width={width}
+				height={height < 700 ? height * 0.35 : height * 0.5}
+				yAxisLabel="#"
 				yAxisSuffix="k"
 				yAxisInterval={1}
 				chartConfig={{
@@ -62,8 +39,9 @@ const Chart = () => {
 				}}
 				bezier
 				style={{
-					marginVertical: 8,
+					marginVertical: 2,
 					borderRadius: 16,
+					zIndex: 0,
 				}}
 			/>
 		</View>
@@ -71,5 +49,3 @@ const Chart = () => {
 };
 
 export default Chart;
-
-const styles = StyleSheet.create({});
