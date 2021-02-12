@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 
@@ -6,7 +6,14 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const Chart = ({ data }) => {
+	// states
+
+	// test for hight and width
 	// console.log(`width => ${width} \n height => ${height}`);
+
+
+
+
 	return (
 		<View
 			style={{
@@ -14,7 +21,7 @@ const Chart = ({ data }) => {
 				marginTop: 20,
 			}}
 		>
-			<LineChart
+		<LineChart
 				data={data}
 				width={width}
 				height={height < 700 ? height * 0.35 : height * 0.5}

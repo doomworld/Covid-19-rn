@@ -1,35 +1,29 @@
-import React from 'react';
-import {
-	StyleSheet,
-	Text,
-	View,
-	Image,
-	TouchableOpacity,
-	ScrollView,
-} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Chart from '../Components/Chart';
 
-// chart data to plot
-const data = {
-	labels: ['Jan', 'Fab', 'Mar', 'Apr', 'May', 'Jun'],
-	datasets: [
-		{
-			data: [
-				Math.random() * 100,
-				Math.random() * 100,
-				Math.random() * 100,
-				Math.random() * 100,
-				Math.random() * 100,
-				Math.random() * 100,
-			],
-		},
-	],
-};
+const Detail = ({ navigation, data }) => {
+	// states
+	const [renderData, setRenderData] = useState(data);
 
-const Detail = ({ navigation }) => {
+	// useEffect
+	useEffect(() => {
+		// console.log('renderData =>', renderData);
+	}, [renderData]);
+
 	const reloadChart = () => {
-		console.log('refresh');
+		const randomData = data.datasets[0].data.map(
+			(item) => Math.random(item) * 100
+		);
+
+		data.datasets[0].data = [...randomData];
+		const newData = data;
+		setRenderData(newData);
+	};
+
+	const renderChart = () => {
+		return <Chart data={renderData} />;
 	};
 
 	return (
@@ -59,9 +53,7 @@ const Detail = ({ navigation }) => {
 					<Ionicons name="md-refresh" size={24} color="red" />
 				</TouchableOpacity>
 			</View>
-			<View style={{ zIndex: 0 }}>
-				<Chart data={data} />
-			</View>
+			<View style={{ zIndex: 0 }}>{renderChart()}</View>
 
 			<View style={styles.bottomCard}>
 				<View style={styles.bottomCol}>
@@ -81,6 +73,25 @@ const Detail = ({ navigation }) => {
 			</View>
 		</View>
 	);
+};
+
+// chart data to plot as default props
+Detail.defaultProps = {
+	data: {
+		labels: ['Jan', 'Fab', 'Mar', 'Apr', 'May', 'Jun'],
+		datasets: [
+			{
+				data: [
+					Math.random() * 100,
+					Math.random() * 100,
+					Math.random() * 100,
+					Math.random() * 100,
+					Math.random() * 100,
+					Math.random() * 100,
+				],
+			},
+		],
+	},
 };
 
 export default Detail;
